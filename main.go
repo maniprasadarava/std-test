@@ -8,11 +8,16 @@ import (
 	"net/http"
 	"strconv"
 
-	_ "github.com/go-sql-driver/mysql"
 	"github.com/gorilla/mux"
+	_ "github.com/microsoft/go-mssqldb"
 )
 
 var db *sql.DB
+var server = "mysql100.database.windows.net"
+var port = 1433
+var user = "azureadbdmin"
+var password = "azuredbadmin@393"
+var database = "studentinfo"
 
 type studentinfo struct {
 	Sid    string `json::"sid,omitempty"`
@@ -22,7 +27,11 @@ type studentinfo struct {
 
 // MYSQL DB configuration
 func GetMySQLDB() *sql.DB {
-	db, err := sql.Open("mysql", "root:root@(127.0.0.1:3306)/studentinfo?parseTime=true")
+	connString := fmt.Sprintf("server=%s;user id=%s;password=%s;port=%d;database=%s;",
+		server, user, password, port, database)
+	var err error
+	// Create connection pool
+	db, err = sql.Open("sqlserver", connString)
 
 	if err != nil {
 		log.Fatal(err)
