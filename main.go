@@ -25,7 +25,7 @@ type studentinfo struct {
 	Course string `json::"course,omitempty"`
 }
 
-// MYSQL DB configuration
+// MSSQL DB configuration
 func GetMySQLDB() *sql.DB {
 	connString := fmt.Sprintf("server=%s;user id=%s;password=%s;port=%d;database=%s;",
 		server, user, password, port, database)
