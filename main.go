@@ -64,13 +64,14 @@ func addStudents(w http.ResponseWriter, r *http.Request) {
 	s := studentinfo{}
 	json.NewDecoder(r.Body).Decode(&s)
 	sid, _ := strconv.Atoi(s.Sid)
-	result, err := db.Exec("insert into student (sid, name, course) values(?,?,?)", sid, s.Name, s.Course)
+	tsql := fmt.Sprintf("insert into student (sid, name, course) values('%d','%s','%s')", sid, s.Name, s.Course)
+	result, err := db.Exec(tsql)
 	if err != nil {
 		fmt.Fprintf(w, ""+err.Error())
 	} else {
 		_, err := result.LastInsertId()
 		if err != nil {
-			json.NewEncoder(w).Encode("{ error: record not inserted }")
+			json.NewEncoder(w).Encode(s)
 		} else {
 			json.NewEncoder(w).Encode(s)
 
@@ -86,7 +87,8 @@ func updateStudents(w http.ResponseWriter, r *http.Request) {
 	json.NewDecoder(r.Body).Decode(&s)
 	vars := mux.Vars(r)
 	sid, _ := strconv.Atoi(vars["sid"])
-	result, err := db.Exec("update student set name=?, course=? where sid=?", s.Name, s.Course, sid)
+	tsql := fmt.Sprintf("update student set name='%s', course='%s' where sid='%d'", s.Name, s.Course, sid)
+	result, err := db.Exec(tsql)
 	if err != nil {
 		fmt.Fprintf(w, ""+err.Error())
 	} else {
@@ -105,7 +107,8 @@ func deleteStudents(w http.ResponseWriter, r *http.Request) {
 	defer db.Close()
 	vars := mux.Vars(r)
 	sid, _ := strconv.Atoi(vars["sid"])
-	result, err := db.Exec("delete from student where sid=?", sid)
+	tsql := fmt.Sprintf("delete from student where sid='%d';", sid)
+	result, err := db.Exec(tsql)
 	if err != nil {
 		fmt.Fprintf(w, ""+err.Error())
 	} else {
@@ -126,6 +129,6 @@ func main() {
 	r.HandleFunc("/students", addStudents).Methods("POST")
 	r.HandleFunc("/students/{sid}", updateStudents).Methods("PUT")
 	r.HandleFunc("/students/{sid}", deleteStudents).Methods("DELETE")
-
+	fmt.Println("server started")
 	http.ListenAndServe(":8000", r)
 }
