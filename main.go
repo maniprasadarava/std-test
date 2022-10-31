@@ -13,10 +13,10 @@ import (
 )
 
 var db *sql.DB
-var server = "52.172.188.46"
+var server = "aksserverdemo.database.windows.net"
 var port = 1433
-var user = "manisqlserver"
-var password = "maniprasad@393"
+var user = "vamshi"
+var password = "A1*krishna"
 var database = "studentinfo"
 
 type studentinfo struct {
