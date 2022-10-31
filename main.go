@@ -17,7 +17,7 @@ var server = "aksserverdemo.database.windows.net"
 var port = 1433
 var user = "vamshi"
 var password = "A1*krishna"
-var database = "studentinfo"
+var database = "aksdatabase"
 
 type studentinfo struct {
 	Sid    string `json::"sid,omitempty"`
