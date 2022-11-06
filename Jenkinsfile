@@ -3,9 +3,9 @@ pipeline{
     environment {
       DOCKER_TAG = getVersion()
 	  aksrg = "Demo"
-	  akscls = "kubernates142"
-	  acrname = "acrdemo142.azurecr.io"
-	  acr_username = "acrdemo142"
+	  akscls = "akscluster"
+	  acrname = "aksmyrigistry.azurecr.io"
+	  acr_username = "aksmyrigistry"
 	  AZURETENANTID = "4ce76999-714a-427c-a127-9ec695a4a4e3"
 	  AZURESUBSCRIPTIONID = "082de385-1e0e-4fd1-8476-2438ff46ed7e"
     }
