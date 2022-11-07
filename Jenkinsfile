@@ -19,12 +19,12 @@ pipeline{
         stage('Build'){
             steps{
                 			
-                sh "sudo docker build . -t ${acrname}/gobuild:latest"
+                
                withCredentials([usernamePassword(credentialsId: 'acrauth1', passwordVariable: 'acrpwd', usernameVariable: 'acruser')]) {
-                    sh "sudo docker login ${acrname} -u ${acruser} -p ${acrpwd}"
+                    sh " docker login ${acrname} -u ${acruser} -p ${acrpwd}"
                 }
-              
-                sh "sudo docker push ${acrname}/gobuild:latest "
+              sh " docker build . -t ${acrname}/gobuild:latest"
+                sh " docker push ${acrname}/gobuild:latest "
             }
         }
         
