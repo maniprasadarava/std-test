@@ -18,23 +18,23 @@ pipeline{
         
         stage('Build'){
             steps{
-                sh "mvn clean package"
-				
-                sh "sudo docker build . -t ${acrname}/helloapp:latest"
-               withCredentials([usernamePassword(credentialsId: 'acrauth', passwordVariable: 'acrpwd', usernameVariable: 'acruser')]) {
+                			
+                sh "sudo docker build . -t ${acrname}/gobuild:latest"
+               withCredentials([usernamePassword(credentialsId: 'acrauth1', passwordVariable: 'acrpwd', usernameVariable: 'acruser')]) {
                     sh "sudo docker login ${acrname} -u ${acruser} -p ${acrpwd}"
                 }
               
-                sh "sudo docker push ${acrname}/helloapp:latest "
+                sh "sudo docker push ${acrname}/gobuild:latest "
             }
         }
         
         stage('Deploy'){
             steps{
-              withCredentials([usernamePassword(credentialsId: '9ee0b9dc-8213-4b07-87bc-7a1276b19349', passwordVariable: 'PASSWORD_VAR', usernameVariable: 'USERNAME_VAR')])
+              withCredentials([usernamePassword(credentialsId: 'spauth', passwordVariable: 'PASSWORD_VAR', usernameVariable: 'USERNAME_VAR')])
 		          {
 			           sh ' az login --service-principal -u $USERNAME_VAR -p $PASSWORD_VAR -t $AZURE_TENANT_ID'
-                 sh 'mvn package azure-webapp:deploy  -Dazure.client=${USERNAME_VAR} -Dazure.key=${PASSWORD_VAR}'
+				  sh ' az aks get-credentials --resource-group Demo --name akscluster '
+                                  sh ' kubectl apply -f goapp.yaml '
 			  }
             }
         }
