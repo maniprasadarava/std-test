@@ -20,8 +20,8 @@ pipeline{
             steps{
                 			
                 
-                     sh "sudo docker build . -t ${acrname}/gobuild:latest"
-                sh " sudo docker push ${acrname}/gobuild:latest "
+                     sh " docker build . -t ${acrname}/gobuild:latest"
+                sh "  docker push ${acrname}/gobuild:latest "
             }
         }
         
