@@ -21,10 +21,10 @@ pipeline{
                 			
                 
                withCredentials([usernamePassword(credentialsId: 'acrauth1', passwordVariable: 'acrpwd', usernameVariable: 'acruser')]) {
-                    sh " docker login ${acrname} -u ${acruser} -p ${acrpwd}"
+                    sh "sudo docker login ${acrname} -u ${acruser} -p ${acrpwd}"
                 }
-              sh " docker build . -t ${acrname}/gobuild:latest"
-                sh " docker push ${acrname}/gobuild:latest "
+              sh "sudo docker build . -t ${acrname}/gobuild:latest"
+                sh " sudo docker push ${acrname}/gobuild:latest "
             }
         }
         
