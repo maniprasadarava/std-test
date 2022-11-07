@@ -29,7 +29,7 @@ pipeline{
             steps{
               withCredentials([usernamePassword(credentialsId: 'spauth', passwordVariable: 'PASSWORD_VAR', usernameVariable: 'USERNAME_VAR')])
 		          {
-			           sh ' az login --service-principal -u $USERNAME_VAR -p $PASSWORD_VAR -t $AZURE_TENANT_ID'
+			           sh ' az login --service-principal -u $USERNAME_VAR -p $PASSWORD_VAR -t $AZURETENANTID'
 				  sh ' az aks get-credentials --resource-group Demo --name akscluster '
                                   sh ' kubectl apply -f goapp.yaml '
 			  }
