@@ -1,0 +1,32 @@
+apiVersion: apps/v1 
+kind: Deployment    
+metadata:       
+  name: goappcicd
+spec:          
+  selector:    
+    matchLabels:
+      app: goappcicd
+  replicas: 2     
+  template:
+    metadata:
+      labels:      
+        app: goappcicd
+    spec:
+      containers:
+        - name: goappcicd
+          image: aksmyrigistry.azurecr.io/gobuild:latest
+          ports:
+            - containerPort: 8000
+---
+    apiVersion: v1
+    kind: Service
+    metadata:
+      name: goappcicd-svc
+      labels:
+        name: goappcicd
+    spec:
+      ports:
+        - port: 8000 
+      selector:           
+        app: goappcicd
+      type: LoadBalancer

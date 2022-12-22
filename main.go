@@ -13,11 +13,11 @@ import (
 )
 
 var db *sql.DB
-var server = "52.172.188.46"
+var server = "aksserverdemo.database.windows.net"
 var port = 1433
-var user = "manisqlserver"
-var password = "maniprasad@393"
-var database = "studentinfo"
+var user = "vamshi"
+var password = "A1*krishna"
+var database = "aksdatabase"
 
 type studentinfo struct {
 	Sid    string `json::"sid,omitempty"`
